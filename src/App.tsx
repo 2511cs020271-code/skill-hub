@@ -16,6 +16,7 @@ import { ProfilePage } from './pages/Profile/ProfilePage';
 import { SettingsPage } from './pages/Settings/SettingsPage';
 import { NotificationsPage } from './pages/Notifications/NotificationsPage';
 import { CommunityPage } from './pages/Community/CommunityPage';
+import { VideoClassesPage } from './pages/VideoClasses/VideoClassesPage';
 
 export default function App() {
   return (
@@ -40,6 +41,7 @@ export default function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/courses" element={<CoursesPage />} />
               <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+              <Route path="/classes" element={<VideoClassesPage />} />
               <Route path="/challenges" element={<ChallengesPage />} />
               <Route path="/challenges/:challengeId" element={<ChallengeSolvePage />} />
               <Route path="/learning-paths" element={<LearningPathsPage />} />

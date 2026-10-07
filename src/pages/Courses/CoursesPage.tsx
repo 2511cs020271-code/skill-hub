@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   ChevronLeft, ChevronRight, Check, BookOpen, Code2,
@@ -138,6 +138,26 @@ export function CourseDetailPage() {
   const [output, setOutput] = useState<string | null>(null);
   const [running, setRunning] = useState(false);
   const [codeTab, setCodeTab] = useState<'code' | 'output'>('code');
+  const [lessonNotes, setLessonNotes] = useState('');
+
+  const allLessons = course?.modules.flatMap(m => m.lessons) || [];
+  const activeL = allLessons.find(l => l.id === activeLesson);
+  const activeModule = course?.modules.find(m => m.lessons.some(l => l.id === activeLesson));
+
+  useEffect(() => {
+    if (activeL && courseId) {
+      const saved = localStorage.getItem(`skillhub_notes_${courseId}_${activeL.id}`);
+      setLessonNotes(saved || '');
+    }
+  }, [activeLesson, courseId, activeL]);
+
+  const handleNotesChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const val = e.target.value;
+    setLessonNotes(val);
+    if (activeL && courseId) {
+      localStorage.setItem(`skillhub_notes_${courseId}_${activeL.id}`, val);
+    }
+  };
 
   if (!course) return (
     <div className="p-8 text-center">
@@ -145,10 +165,6 @@ export function CourseDetailPage() {
       <Button onClick={() => navigate('/courses')}>Back to Courses</Button>
     </div>
   );
-
-  const allLessons = course.modules.flatMap(m => m.lessons);
-  const activeL = allLessons.find(l => l.id === activeLesson);
-  const activeModule = course.modules.find(m => m.lessons.some(l => l.id === activeLesson));
 
   const handleRunCode = async () => {
     setRunning(true);
@@ -259,6 +275,37 @@ export function CourseDetailPage() {
             </div>
 
             <h1 className="text-2xl font-bold text-white mb-6">{activeL.title}</h1>
+
+            {/* Video & Notes Section */}
+            <div className="flex flex-col lg:flex-row gap-6 mb-8">
+              {/* Video Player */}
+              {activeL.content.videoId && (
+                <div className="lg:w-1/2 flex flex-col">
+                  <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">Video Lesson</h3>
+                  <div className="relative w-full pb-[56.25%] bg-black rounded-xl overflow-hidden border border-white/[0.06]">
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full"
+                      src={`https://www.youtube.com/embed/${activeL.content.videoId}?autoplay=0`}
+                      title="YouTube video player"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </div>
+              )}
+
+              {/* Notes Area */}
+              <div className={activeL.content.videoId ? "lg:w-1/2 flex flex-col" : "w-full flex flex-col"}>
+                <h3 className="text-sm font-semibold text-gray-300 uppercase tracking-wider mb-3">My Notes</h3>
+                <textarea
+                  value={lessonNotes}
+                  onChange={handleNotesChange}
+                  placeholder="Type your notes here... They will be saved automatically."
+                  className="flex-1 w-full min-h-[225px] bg-surface-800 border border-white/[0.06] rounded-xl p-4 text-sm text-gray-300 focus:outline-none focus:border-brand-500 transition-colors resize-y shadow-inner"
+                />
+              </div>
+            </div>
 
             {/* Explanation */}
             <div className="prose max-w-none mb-8">

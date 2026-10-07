@@ -68,6 +68,7 @@ export interface QuizQuestion {
 
 export interface LessonContent {
   explanation: string;
+  videoId?: string;
   codeExample?: string;
   language?: string;
   practicePrompt?: string;

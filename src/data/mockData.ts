@@ -61,6 +61,7 @@ export const mockCourses: Course[] = [
 - Used in Android, Enterprise, Backend systems
 
 Java programs are compiled to bytecode that runs on the Java Virtual Machine (JVM). This means Java code can run on any device that has a JVM installed, regardless of the underlying operating system.`,
+              videoId: 'grEKMHGYyns',
               codeExample: `public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n        System.out.println("Welcome to Skill Hub!");\n    }\n}`,
               language: 'java',
               practicePrompt: 'Write a Java program that prints your name and your city.',
