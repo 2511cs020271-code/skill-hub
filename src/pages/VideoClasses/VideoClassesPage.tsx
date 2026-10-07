@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Youtube, Plus, Trash2, Play, Link as LinkIcon } from 'lucide-react';
+import { Video, Plus, Trash2, Play, Link as LinkIcon } from 'lucide-react';
 import { Button, Card } from '../../components/ui';
 
 interface Video {
@@ -68,7 +68,7 @@ export function VideoClassesPage() {
     <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto h-full flex flex-col">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-          <Youtube className="text-red-500" size={32} /> Video Classes
+          <Video className="text-red-500" size={32} /> Video Classes
         </h1>
         <p className="text-gray-400">Add YouTube links to watch and learn directly within the app.</p>
       </div>
@@ -95,7 +95,7 @@ export function VideoClassesPage() {
             </div>
           ) : (
             <div className="bg-surface-800 rounded-2xl border border-white/[0.06] flex-1 flex flex-col items-center justify-center text-gray-500 min-h-[400px]">
-              <Youtube size={64} className="mb-4 opacity-20" />
+              <Video size={64} className="mb-4 opacity-20" />
               <p>No video selected. Add a link to get started.</p>
             </div>
           )}

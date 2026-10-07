@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Map, Code2, Trophy, BarChart3,
   Target, Award, Users, User, Settings, ChevronLeft, ChevronRight,
-  Zap, ClipboardList, Puzzle, Youtube
+  Zap, ClipboardList, Puzzle, Video
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
@@ -15,7 +15,7 @@ const navItems = [
     { icon: <BookOpen size={18} />, label: 'My Learning', to: '/my-learning' },
     { icon: <Map size={18} />, label: 'Learning Paths', to: '/learning-paths' },
     { icon: <BookOpen size={18} />, label: 'Courses', to: '/courses' },
-    { icon: <Youtube size={18} />, label: 'Video Classes', to: '/classes' },
+    { icon: <Video size={18} />, label: 'Video Classes', to: '/classes' },
   ]},
   { group: 'Practice', items: [
     { icon: <Code2 size={18} />, label: 'Code Editor', to: '/editor' },
