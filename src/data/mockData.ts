@@ -35,8 +35,8 @@ export const mockCourses: Course[] = [
     description: 'From zero to advanced Java developer. Learn OOP, data structures, and real-world Java applications.',
     language: 'Java',
     difficulty: 'Beginner',
-    totalLessons: 42,
-    totalModules: 12,
+    totalLessons: 15,
+    totalModules: 4,
     estimatedHours: 18,
     certificate: true,
     icon: '☕',
@@ -47,79 +47,397 @@ export const mockCourses: Course[] = [
     instructor: 'Dr. Priya Reddy',
     modules: [
       {
-        id: 'm1', title: 'MODULE 1 — Java Basics',
+        id: 'm1',
+        title: 'MODULE 1 — Java Basics',
         lessons: [
-          { id: 'l1', title: 'Introduction to Java', type: 'reading', duration: 10, xpReward: 20,
+          {
+            id: 'l1',
+            title: 'Introduction to Java',
+            type: 'reading',
+            duration: 10,
+            xpReward: 20,
             content: {
               explanation: `Java is one of the world's most popular programming languages. Created by James Gosling at Sun Microsystems in 1995, Java follows the principle of "Write Once, Run Anywhere" (WORA).
 
-**Why Java?**
-- Platform independent (JVM)
-- Object-Oriented
-- Strongly typed
-- Large ecosystem
-- Used in Android, Enterprise, Backend systems
+**Key Features of Java:**
+- **Platform Independent (JVM):** Java source code compiles into bytecode (.class), which runs on any device with Java Virtual Machine.
+- **Object-Oriented Programming (OOP):** Everything in Java is organized around classes and objects.
+- **Automatic Memory Management:** Java features a built-in Garbage Collector to free unused memory.
+- **Robust & Secure:** Strong typing, compile-time error checking, and memory safety.
 
-Java programs are compiled to bytecode that runs on the Java Virtual Machine (JVM). This means Java code can run on any device that has a JVM installed, regardless of the underlying operating system.`,
+**How Java Works:**
+1. You write Java code in a \`.java\` file.
+2. The Java Compiler (\`javac\`) compiles it into bytecode (\`.class\`).
+3. The Java Virtual Machine (\`jvm\`) executes the bytecode line-by-line or via JIT compiler on your host system.`,
               videoId: 'grEKMHGYyns',
-              codeExample: `public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n        System.out.println("Welcome to Skill Hub!");\n    }\n}`,
+              codeExample: `public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+        System.out.println("Welcome to SkillHub Java Course!");
+    }
+}`,
               language: 'java',
-              practicePrompt: 'Write a Java program that prints your name and your city.',
-              starterCode: `public class Main {\n    public static void main(String[] args) {\n        // Write your code here\n        \n    }\n}`
+              practicePrompt: 'Write a Java program that prints your name, favorite programming language, and daily learning goal.',
+              starterCode: `public class Main {
+    public static void main(String[] args) {
+        // Write your solution here
+        System.out.println("My Name: ");
+    }
+}`
             }
           },
-          { id: 'l2', title: 'Variables & Data Types', type: 'coding', duration: 15, xpReward: 30,
+          {
+            id: 'l2',
+            title: 'Variables & Data Types',
+            type: 'coding',
+            duration: 15,
+            xpReward: 30,
             content: {
-              explanation: `Variables are containers for storing data. In Java, every variable must have a declared type.
+              explanation: `Variables are containers for holding data in memory. In Java, variable types are strictly checked at compile time.
 
-**Primitive Types:**
-- \`int\` — Integer numbers (-2B to 2B)
-- \`long\` — Large integers
-- \`double\` — Decimal numbers
-- \`float\` — Single precision decimal
-- \`boolean\` — true or false
-- \`char\` — Single character
-- \`byte\` / \`short\` — Small integers
+**Primitive Data Types:**
+- \`int\` (4 bytes): Stores whole numbers from -2,147,483,648 to 2,147,483,647.
+- \`long\` (8 bytes): Stores very large whole numbers.
+- \`double\` (8 bytes): Stores fractional floating-point numbers with 15 decimal digits precision.
+- \`float\` (4 bytes): Stores floating-point numbers with 6-7 decimal digits precision.
+- \`boolean\` (1 bit): Stores either \`true\` or \`false\`.
+- \`char\` (2 bytes): Stores a single character in single quotes like \`'A'\`.
 
-**Reference Types:**
-- \`String\` — Text
-- Arrays, Objects, etc.`,
-              codeExample: `public class Variables {\n    public static void main(String[] args) {\n        int age = 20;\n        double gpa = 9.5;\n        boolean isStudent = true;\n        String name = "Alex";\n        char grade = 'A';\n        \n        System.out.println("Name: " + name);\n        System.out.println("Age: " + age);\n        System.out.println("GPA: " + gpa);\n        System.out.println("Grade: " + grade);\n    }\n}`,
+**Reference Data Types:**
+- \`String\`: Sequence of characters in double quotes like \`"Hello"\`.
+- \`Arrays\` and Objects.`,
+              videoId: 'hlGoQC332VM',
+              codeExample: `public class Variables {
+    public static void main(String[] args) {
+        int age = 21;
+        double gpa = 3.85;
+        boolean isEnrolled = true;
+        String studentName = "Alex Johnson";
+        char grade = 'A';
+
+        System.out.println("Student: " + studentName);
+        System.out.println("Age: " + age + " | GPA: " + gpa + " | Grade: " + grade);
+        System.out.println("Is Active Student: " + isEnrolled);
+    }
+}`,
               language: 'java',
-              practicePrompt: 'Declare variables for a student record: name, age, GPA, and whether they are enrolled.',
-              starterCode: `public class StudentRecord {\n    public static void main(String[] args) {\n        // Declare your variables here\n        \n        // Print the values\n        \n    }\n}`
+              practicePrompt: 'Create variables for an e-commerce product: name (String), price (double), stockQuantity (int), and inStock (boolean). Print product details.',
+              starterCode: `public class ProductDetails {
+    public static void main(String[] args) {
+        // Declare variables
+        
+        // Print product info
+    }
+}`
             }
           },
-          { id: 'l3', title: 'Operators', type: 'reading', duration: 12, xpReward: 25, content: { explanation: 'Java supports arithmetic, relational, logical, assignment, and bitwise operators.', codeExample: '' } },
-          { id: 'l4', title: 'Input & Output', type: 'coding', duration: 18, xpReward: 35, content: { explanation: 'Use Scanner for input and System.out for output.', codeExample: '' } },
+          {
+            id: 'l3',
+            title: 'Operators & Expressions',
+            type: 'coding',
+            duration: 12,
+            xpReward: 25,
+            content: {
+              explanation: `Operators are special symbols used to perform operations on variables and values.
+
+**1. Arithmetic Operators:** \`+\`, \`-\`, \`*\`, \`/\`, \`%\` (modulus/remainder)
+**2. Relational Operators:** \`==\`, \`!=\`, \`>\`, \`<\`, \`>=\`, \`<=\`
+**3. Logical Operators:** \`&&\` (AND), \`||\` (OR), \`!\` (NOT)
+**4. Assignment & Increment:** \`+=\`, \`-=\`, \`++\`, \`--\``,
+              videoId: 'yR0c2z6qY4s',
+              codeExample: `public class OperatorsDemo {
+    public static void main(String[] args) {
+        int a = 15;
+        int b = 4;
+        
+        System.out.println("Addition: " + (a + b));        // 19
+        System.out.println("Division: " + (a / b));        // 3 (integer division)
+        System.out.println("Modulus: " + (a % b));         // 3
+        System.out.println("Is A greater than B? " + (a > b)); // true
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Write a program that takes two numbers, calculates their sum, product, average, and checks if the sum is even.',
+              starterCode: `public class OperatorLab {
+    public static void main(String[] args) {
+        int num1 = 20;
+        int num2 = 10;
+        // Calculate and print results
+    }
+}`
+            }
+          },
+          {
+            id: 'l4',
+            title: 'Input & Output with Scanner',
+            type: 'coding',
+            duration: 18,
+            xpReward: 35,
+            content: {
+              explanation: `In Java, standard user input is read using the \`java.util.Scanner\` class.
+
+**Key Scanner Methods:**
+- \`scanner.nextInt()\`: Reads an integer.
+- \`scanner.nextDouble()\`: Reads a double floating-point number.
+- \`scanner.nextLine()\`: Reads an entire line of text.
+- \`scanner.next()\`: Reads a single word.`,
+              videoId: '3aB_aH9L7S4',
+              codeExample: `import java.util.Scanner;
+
+public class UserInput {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner("SkillHub\\n25\\n95.5");
+        
+        String name = sc.nextLine();
+        int age = sc.nextInt();
+        double score = sc.nextDouble();
+
+        System.out.println("User Registered: " + name);
+        System.out.println("Age: " + age + ", Test Score: " + score);
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Read user name and marks in 3 subjects. Calculate total marks and average percentage.',
+              starterCode: `import java.util.Scanner;
+
+public class GradeCalculator {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // Write your input logic here
+    }
+}`
+            }
+          }
         ]
       },
       {
-        id: 'm2', title: 'MODULE 2 — Control Flow',
+        id: 'm2',
+        title: 'MODULE 2 — Control Flow & Loops',
         lessons: [
-          { id: 'l5', title: 'If / Else Statements', type: 'reading', duration: 10, xpReward: 20, content: { explanation: 'Conditional logic in Java.', codeExample: '' } },
-          { id: 'l6', title: 'Switch Statements', type: 'coding', duration: 12, xpReward: 25, content: { explanation: 'Switch-case control flow.', codeExample: '' } },
-          { id: 'l7', title: 'For & While Loops', type: 'coding', duration: 20, xpReward: 40, content: { explanation: 'Repetition structures in Java.', codeExample: '' } },
-          { id: 'l8', title: 'Nested Loops', type: 'coding', duration: 15, xpReward: 30, content: { explanation: 'Using loops inside loops.', codeExample: '' } },
+          {
+            id: 'l5',
+            title: 'If / Else Conditional Statements',
+            type: 'coding',
+            duration: 15,
+            xpReward: 30,
+            content: {
+              explanation: `Conditionals allow your application to make decisions based on runtime values.
+
+**Syntax:**
+\`\`\`java
+if (condition) {
+    // executes if true
+} else if (otherCondition) {
+    // executes if true
+} else {
+    // fallback
+}
+\`\`\``,
+              videoId: 'P60k11w-mS8',
+              codeExample: `public class IfElseDemo {
+    public static void main(String[] args) {
+        int marks = 85;
+
+        if (marks >= 90) {
+            System.out.println("Grade: A+");
+        } else if (marks >= 80) {
+            System.out.println("Grade: A");
+        } else if (marks >= 70) {
+            System.out.println("Grade: B");
+        } else {
+            System.out.println("Grade: Needs Improvement");
+        }
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Given a person\'s age, check if they are eligible to vote (age >= 18) and drive (age >= 16).',
+              starterCode: `public class EligibilityCheck {
+    public static void main(String[] args) {
+        int age = 17;
+        // Check voting and driving eligibility
+    }
+}`
+            }
+          },
+          {
+            id: 'l6',
+            title: 'Switch Statements & Expressions',
+            type: 'coding',
+            duration: 15,
+            xpReward: 30,
+            content: {
+              explanation: `Switch statements provide a cleaner alternative to multiple \`if-else\` checks when testing a variable against discrete values.`,
+              videoId: '52PzCbgd4Gk',
+              codeExample: `public class SwitchDemo {
+    public static void main(String[] args) {
+        int dayOfWeek = 3;
+        String dayName;
+
+        switch (dayOfWeek) {
+            case 1: dayName = "Monday"; break;
+            case 2: dayName = "Tuesday"; break;
+            case 3: dayName = "Wednesday"; break;
+            case 4: dayName = "Thursday"; break;
+            case 5: dayName = "Friday"; break;
+            default: dayName = "Weekend"; break;
+        }
+
+        System.out.println("Day: " + dayName);
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Write a calculator program using switch statements for +, -, *, / operators.',
+              starterCode: `public class Calculator {
+    public static void main(String[] args) {
+        char op = '*';
+        double num1 = 12, num2 = 5;
+        // Implement switch logic
+    }
+}`
+            }
+          },
+          {
+            id: 'l7',
+            title: 'For & While Loops',
+            type: 'coding',
+            duration: 20,
+            xpReward: 40,
+            content: {
+              explanation: `Loops are used to execute a block of code repeatedly as long as a condition remains true.
+
+- **For Loop:** Best when the exact number of iterations is known.
+- **While Loop:** Best when looping depends on a dynamic condition.
+- **Do-While Loop:** Guarantees execution at least once before evaluating condition.`,
+              videoId: 'r594rR0z9bY',
+              codeExample: `public class LoopDemo {
+    public static void main(String[] args) {
+        System.out.println("--- For Loop ---");
+        for (int i = 1; i <= 5; i++) {
+            System.out.println("Count: " + i);
+        }
+
+        System.out.println("--- While Loop ---");
+        int count = 5;
+        while (count > 0) {
+            System.out.println("Countdown: " + count);
+            count--;
+        }
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Print the multiplication table of 7 up to 10 using a for loop.',
+              starterCode: `public class Table {
+    public static void main(String[] args) {
+        int num = 7;
+        // Loop to print table
+    }
+}`
+            }
+          }
         ]
       },
       {
-        id: 'm3', title: 'MODULE 3 — Methods',
+        id: 'm3',
+        title: 'MODULE 3 — Methods & Functions',
         lessons: [
-          { id: 'l9', title: 'Defining Methods', type: 'reading', duration: 12, xpReward: 25, content: { explanation: 'How to create reusable method blocks.', codeExample: '' } },
-          { id: 'l10', title: 'Parameters & Arguments', type: 'coding', duration: 15, xpReward: 30, content: { explanation: 'Passing data to methods.', codeExample: '' } },
-          { id: 'l11', title: 'Return Values', type: 'coding', duration: 14, xpReward: 30, content: { explanation: 'Methods that return data.', codeExample: '' } },
+          {
+            id: 'l8',
+            title: 'Defining & Calling Methods',
+            type: 'coding',
+            duration: 15,
+            xpReward: 35,
+            content: {
+              explanation: `Methods are reusable blocks of code that perform a specific task when called.
+
+**Method Structure:**
+\`public static returnType methodName(parameters) { ... }\``,
+              videoId: 'v3bWlXn42s4',
+              codeExample: `public class MethodDemo {
+    public static void greetUser(String username) {
+        System.out.println("Hello, " + username + "! Welcome back to Java.");
+    }
+
+    public static int addNumbers(int a, int b) {
+        return a + b;
+    }
+
+    public static void main(String[] args) {
+        greetUser("Alex");
+        int result = addNumbers(25, 75);
+        System.out.println("Sum: " + result);
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Create a method isEven(int n) that returns true if n is even, false otherwise.',
+              starterCode: `public class EvenCheck {
+    public static boolean isEven(int n) {
+        // Write logic
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Is 14 even? " + isEven(14));
+    }
+}`
+            }
+          }
         ]
       },
       {
-        id: 'm4', title: 'MODULE 4 — OOP',
+        id: 'm4',
+        title: 'MODULE 4 — Object Oriented Programming (OOP)',
         lessons: [
-          { id: 'l12', title: 'Classes & Objects', type: 'reading', duration: 20, xpReward: 40, content: { explanation: 'The building blocks of OOP.', codeExample: '' } },
-          { id: 'l13', title: 'Inheritance', type: 'coding', duration: 25, xpReward: 50, content: { explanation: 'Extending classes in Java.', codeExample: '' } },
-          { id: 'l14', title: 'Polymorphism', type: 'coding', duration: 22, xpReward: 45, content: { explanation: 'Method overriding and overloading.', codeExample: '' } },
-          { id: 'l15', title: 'Encapsulation', type: 'reading', duration: 15, xpReward: 30, content: { explanation: 'Data hiding with access modifiers.', codeExample: '' } },
+          {
+            id: 'l9',
+            title: 'Classes & Objects',
+            type: 'reading',
+            duration: 20,
+            xpReward: 40,
+            content: {
+              explanation: `Java is fundamentally Object-Oriented. A **Class** is a blueprint/template, and an **Object** is an instance created from that blueprint.
+
+**4 Pillars of OOP:**
+1. **Encapsulation:** Hiding internal details using private fields & public getters/setters.
+2. **Inheritance:** Creating new classes based on existing ones using \`extends\`.
+3. **Polymorphism:** Ability to process objects differently based on their data type or class.
+4. **Abstraction:** Hiding complex implementation details and showing only essential features.`,
+              videoId: 'IUqNuup48k8',
+              codeExample: `class Student {
+    private String name;
+    private int score;
+
+    public Student(String name, int score) {
+        this.name = name;
+        this.score = score;
+    }
+
+    public void displayInfo() {
+        System.out.println("Student: " + name + " | Score: " + score);
+    }
+}
+
+public class OOPMain {
+    public static void main(String[] args) {
+        Student s1 = new Student("Priya", 95);
+        s1.displayInfo();
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Create a BankAccount class with balance, deposit(), and withdraw() methods.',
+              starterCode: `class BankAccount {
+    private double balance;
+    // Add constructor, deposit and withdraw methods
+}
+
+public class BankTest {
+    public static void main(String[] args) {
+        // Test BankAccount
+    }
+}`
+            }
+          }
         ]
-      },
+      }
     ]
   },
   {
@@ -128,8 +446,8 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     description: 'Learn Python from scratch. Master the most beginner-friendly language used in AI/ML, automation, and web dev.',
     language: 'Python',
     difficulty: 'Beginner',
-    totalLessons: 35,
-    totalModules: 10,
+    totalLessons: 12,
+    totalModules: 3,
     estimatedHours: 15,
     certificate: true,
     icon: '🐍',
@@ -138,7 +456,119 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     enrolledCount: 18700,
     rating: 4.9,
     instructor: 'Rahul Sharma',
-    modules: []
+    modules: [
+      {
+        id: 'py-m1',
+        title: 'MODULE 1 — Python Essentials',
+        lessons: [
+          {
+            id: 'py-l1',
+            title: 'Python Syntax & Data Types',
+            type: 'reading',
+            duration: 10,
+            xpReward: 20,
+            content: {
+              explanation: `Python is a high-level, interpreted language known for its ultra-readable syntax and versatility.
+
+**Core Data Types:**
+- \`int\`: Whole numbers (\`x = 10\`)
+- \`float\`: Decimals (\`pi = 3.14159\`)
+- \`str\`: Text strings (\`msg = "Hello Python"\`)
+- \`bool\`: Booleans (\`is_valid = True\`)
+- \`list\`: Ordered, mutable collection (\`nums = [1, 2, 3]\`)
+- \`dict\`: Key-value mapping (\`user = {"name": "Alex", "age": 25}\`)`,
+              videoId: '_uQrJ0TkZlc',
+              codeExample: `# Python Syntax Demo
+name = "Alex"
+age = 22
+skills = ["Python", "Machine Learning", "SQL"]
+is_active = True
+
+print(f"User: {name}, Age: {age}")
+print(f"Primary Skill: {skills[0]}")
+`,
+              language: 'python',
+              practicePrompt: 'Define variables for a book: title, author, price, and chapters list. Print them cleanly.',
+              starterCode: `# Write Python code below
+title = "Python Cookbook"
+# Add your variables here
+`
+            }
+          },
+          {
+            id: 'py-l2',
+            title: 'Control Structures & Indentation',
+            type: 'coding',
+            duration: 15,
+            xpReward: 30,
+            content: {
+              explanation: `Python uses clean indentation (4 spaces) instead of curly braces \`{}\` to define blocks of code.`,
+              videoId: 'DPn8l_K2pwc',
+              codeExample: `score = 88
+
+if score >= 90:
+    print("Grade: Distinction")
+elif score >= 75:
+    print("Grade: First Class")
+else:
+    print("Grade: Pass")
+
+# For Loop
+for i in range(1, 6):
+    print(f"Iteration #{i}")
+`,
+              language: 'python',
+              practicePrompt: 'Write a loop that prints all even numbers between 1 and 20.',
+              starterCode: `# Loop for even numbers
+for num in range(1, 21):
+    # Check if even and print
+    pass
+`
+            }
+          }
+        ]
+      },
+      {
+        id: 'py-m2',
+        title: 'MODULE 2 — Lists, Tuples & Dictionaries',
+        lessons: [
+          {
+            id: 'py-l3',
+            title: 'Mastering Python Data Structures',
+            type: 'coding',
+            duration: 18,
+            xpReward: 35,
+            content: {
+              explanation: `Python's built-in data structures are flexible and powerful.
+
+- **Lists:** Mutable ordered sequences \`[1, 2, 3]\`.
+- **Tuples:** Immutable ordered sequences \`(10, 20)\`.
+- **Dictionaries:** Fast key-value lookups \`{"key": "value"}\`.`,
+              videoId: 'rfscVS0vtbw',
+              codeExample: `student = {
+    "name": "Priya",
+    "courses": ["Python", "DSA", "Web Dev"],
+    "gpa": 3.9
+}
+
+print(f"Student Name: {student['name']}")
+student["courses"].append("AI/ML")
+print("Updated Courses:", student["courses"])
+`,
+              language: 'python',
+              practicePrompt: 'Create a dictionary of items and prices. Calculate the total cost of all items.',
+              starterCode: `cart = {
+    "Laptop": 850,
+    "Mouse": 25,
+    "Keyboard": 45
+}
+# Calculate total
+`
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     id: 'course-dsa',
@@ -146,8 +576,8 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     description: 'Master arrays, linked lists, trees, graphs, sorting and searching algorithms. Ace your technical interviews.',
     language: 'Java',
     difficulty: 'Intermediate',
-    totalLessons: 58,
-    totalModules: 14,
+    totalLessons: 15,
+    totalModules: 4,
     estimatedHours: 30,
     certificate: true,
     icon: '🧠',
@@ -156,7 +586,92 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     enrolledCount: 9800,
     rating: 4.7,
     instructor: 'Arjun Kumar',
-    modules: []
+    modules: [
+      {
+        id: 'dsa-m1',
+        title: 'MODULE 1 — Time Complexity & Big O Notation',
+        lessons: [
+          {
+            id: 'dsa-l1',
+            title: 'Understanding Big O Notation',
+            type: 'reading',
+            duration: 15,
+            xpReward: 30,
+            content: {
+              explanation: `Big O notation measures how the runtime or space requirement of an algorithm grows relative to input size \`N\`.
+
+**Common Big O Complexities:**
+- **O(1):** Constant Time (e.g., Array index lookup).
+- **O(log N):** Logarithmic Time (e.g., Binary Search).
+- **O(N):** Linear Time (e.g., Single Loop search).
+- **O(N log N):** Linearithmic Time (e.g., Merge Sort, Quick Sort).
+- **O(N²):** Quadratic Time (e.g., Nested Loops, Bubble Sort).`,
+              videoId: 'g2o22C3CRfU',
+              codeExample: `// O(1) Constant Time
+int getFirstElement(int[] arr) {
+    return arr[0];
+}
+
+// O(N) Linear Time
+int findMax(int[] arr) {
+    int max = arr[0];
+    for (int num : arr) {
+        if (num > max) max = num;
+    }
+    return max;
+}`,
+              language: 'java',
+              practicePrompt: 'Identify time complexity of searching an element in a sorted array vs an unsorted array.',
+              starterCode: `// Describe complexities in comments
+// Binary Search on Sorted Array: O(?)
+// Linear Search on Unsorted Array: O(?)
+`
+            }
+          }
+        ]
+      },
+      {
+        id: 'dsa-m2',
+        title: 'MODULE 2 — Arrays & Linked Lists',
+        lessons: [
+          {
+            id: 'dsa-l2',
+            title: 'Arrays & Two-Pointer Technique',
+            type: 'coding',
+            duration: 20,
+            xpReward: 40,
+            content: {
+              explanation: `The Two-Pointer approach uses two indices to traverse a data structure simultaneously, drastically reducing O(N²) nested loops down to O(N).`,
+              videoId: 'On03HWe2tZM',
+              codeExample: `public class TwoSumSorted {
+    public static boolean hasTwoSum(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
+        while (left < right) {
+            int sum = arr[left] + arr[right];
+            if (sum == target) return true;
+            if (sum < target) left++;
+            else right--;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int[] numbers = {2, 7, 11, 15};
+        System.out.println("Has target sum 9? " + hasTwoSum(numbers, 9));
+    }
+}`,
+              language: 'java',
+              practicePrompt: 'Implement a function that reverses an array in-place using two pointers.',
+              starterCode: `public class ReverseArray {
+    public static void reverse(int[] arr) {
+        // Implement two pointer reversal
+    }
+}`
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     id: 'course-web',
@@ -164,8 +679,8 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     description: 'Build modern web apps with HTML, CSS, JavaScript, and React. From static pages to dynamic applications.',
     language: 'JavaScript',
     difficulty: 'Beginner',
-    totalLessons: 48,
-    totalModules: 12,
+    totalLessons: 14,
+    totalModules: 3,
     estimatedHours: 24,
     certificate: true,
     icon: '🌐',
@@ -174,7 +689,43 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     enrolledCount: 22100,
     rating: 4.8,
     instructor: 'Sneha Rao',
-    modules: []
+    modules: [
+      {
+        id: 'web-m1',
+        title: 'MODULE 1 — Modern HTML5 & CSS3 Layouts',
+        lessons: [
+          {
+            id: 'web-l1',
+            title: 'Flexbox & CSS Grid Fundamentals',
+            type: 'reading',
+            duration: 15,
+            xpReward: 25,
+            content: {
+              explanation: `Flexbox is designed for 1-dimensional layouts (rows OR columns), while CSS Grid excels at 2-dimensional grid structures (rows AND columns).`,
+              videoId: 'pKwbptgNIn4',
+              codeExample: `/* Flexbox Center Pattern */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Responsive CSS Grid */
+.grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}`,
+              language: 'javascript',
+              practicePrompt: 'Create CSS rule to position 3 cards in a centered row using flexbox.',
+              starterCode: `/* Add your CSS styles */
+`
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     id: 'course-aiml',
@@ -182,8 +733,8 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     description: 'Dive into machine learning algorithms, neural networks, and AI applications using Python and popular frameworks.',
     language: 'Python',
     difficulty: 'Advanced',
-    totalLessons: 62,
-    totalModules: 16,
+    totalLessons: 18,
+    totalModules: 4,
     estimatedHours: 40,
     certificate: true,
     icon: '🤖',
@@ -192,7 +743,43 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     enrolledCount: 7600,
     rating: 4.9,
     instructor: 'Dr. Priya Reddy',
-    modules: []
+    modules: [
+      {
+        id: 'ai-m1',
+        title: 'MODULE 1 — Introduction to Machine Learning',
+        lessons: [
+          {
+            id: 'ai-l1',
+            title: 'Supervised vs Unsupervised Learning',
+            type: 'reading',
+            duration: 20,
+            xpReward: 40,
+            content: {
+              explanation: `Machine Learning algorithms learn patterns from data to make predictions.
+
+- **Supervised Learning:** Training data includes labeled inputs and outputs (e.g., Regression, Classification).
+- **Unsupervised Learning:** Finds hidden patterns in unlabeled data (e.g., Clustering with K-Means).
+- **Reinforcement Learning:** Agents learn by trial-and-error using reward mechanisms.`,
+              videoId: 'Gv9_4yMHFhI',
+              codeExample: `# Simple Linear Regression Concept in Python
+import numpy as np
+
+X = np.array([1, 2, 3, 4, 5])
+y = np.array([2, 4, 6, 8, 10])
+
+# Weight calculation
+w = np.sum(X * y) / np.sum(X * X)
+print(f"Learned Weight slope: {w}")
+`,
+              language: 'python',
+              practicePrompt: 'Classify whether predicting house prices is Supervised or Unsupervised learning.',
+              starterCode: `# Write explanation
+`
+            }
+          }
+        ]
+      }
+    ]
   },
   {
     id: 'course-sql',
@@ -200,8 +787,8 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     description: 'Master relational databases, SQL queries, joins, indexing, and database design principles.',
     language: 'SQL',
     difficulty: 'Beginner',
-    totalLessons: 30,
-    totalModules: 8,
+    totalLessons: 12,
+    totalModules: 3,
     estimatedHours: 12,
     certificate: true,
     icon: '🗄️',
@@ -210,8 +797,36 @@ Java programs are compiled to bytecode that runs on the Java Virtual Machine (JV
     enrolledCount: 11200,
     rating: 4.6,
     instructor: 'Arjun Kumar',
-    modules: []
-  },
+    modules: [
+      {
+        id: 'sql-m1',
+        title: 'MODULE 1 — Relational Databases & Queries',
+        lessons: [
+          {
+            id: 'sql-l1',
+            title: 'SELECT Queries, Filtering & Sorting',
+            type: 'coding',
+            duration: 15,
+            xpReward: 30,
+            content: {
+              explanation: `Structured Query Language (SQL) is the universal language for querying relational database management systems (RDBMS) like MySQL, PostgreSQL, and SQLite.`,
+              videoId: 'HXV3zeQKqGY',
+              codeExample: `SELECT name, email, score 
+FROM users 
+WHERE score >= 80 
+ORDER BY score DESC 
+LIMIT 10;`,
+              language: 'sql',
+              practicePrompt: 'Write a SQL query to select all students with grade A ordered by name.',
+              starterCode: `-- Write your SQL query below
+SELECT * FROM students;
+`
+            }
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 // ==================== MOCK CHALLENGES ====================

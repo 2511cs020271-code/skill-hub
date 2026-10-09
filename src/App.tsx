@@ -18,6 +18,12 @@ import { NotificationsPage } from './pages/Notifications/NotificationsPage';
 import { CommunityPage } from './pages/Community/CommunityPage';
 import { VideoClassesPage } from './pages/VideoClasses/VideoClassesPage';
 
+import { CodeEditorPage } from './pages/Editor/CodeEditorPage';
+import { MyLearningPage } from './pages/MyLearning/MyLearningPage';
+import { AchievementsPage } from './pages/Achievements/AchievementsPage';
+import { AssessmentsPage } from './pages/Assessments/AssessmentsPage';
+import { ProgressPage } from './pages/Progress/ProgressPage';
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -39,12 +45,17 @@ export default function App() {
             {/* Protected Dashboard & App Pages */}
             <Route element={<ProtectedLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/my-learning" element={<MyLearningPage />} />
               <Route path="/courses" element={<CoursesPage />} />
               <Route path="/courses/:courseId" element={<CourseDetailPage />} />
               <Route path="/classes" element={<VideoClassesPage />} />
+              <Route path="/editor" element={<CodeEditorPage />} />
               <Route path="/challenges" element={<ChallengesPage />} />
               <Route path="/challenges/:challengeId" element={<ChallengeSolvePage />} />
+              <Route path="/assessments" element={<AssessmentsPage />} />
               <Route path="/learning-paths" element={<LearningPathsPage />} />
+              <Route path="/progress" element={<ProgressPage />} />
+              <Route path="/achievements" element={<AchievementsPage />} />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/settings" element={<SettingsPage />} />

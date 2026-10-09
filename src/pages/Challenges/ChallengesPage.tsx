@@ -3,11 +3,10 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import {
   Play, Send, RotateCcw, ChevronLeft, Code2,
   CheckCircle, XCircle, AlertCircle, Clock, Cpu,
-  Lightbulb, ChevronDown, ChevronUp, FileCode,
-  Settings, Maximize2, Terminal, BookOpen
+  Lightbulb, ChevronDown, ChevronUp, FileCode, Terminal
 } from 'lucide-react';
 import {
-  mockChallenges, mockCourses
+  mockChallenges
 } from '../../data/mockData';
 import { Button, Badge, DifficultyBadge, Card, EmptyState } from '../../components/ui';
 import { useAuth } from '../../context/AuthContext';
@@ -186,6 +185,8 @@ export function ChallengeSolvePage() {
   const [showHint, setShowHint] = useState(false);
   const [hintIdx, setHintIdx] = useState(0);
   const [submissionScore, setSubmissionScore] = useState(0);
+  const [execTimeMs, setExecTimeMs] = useState(38);
+  const [execMemoryMB, setExecMemoryMB] = useState(16.4);
 
   if (!challenge) {
     return (
@@ -230,6 +231,10 @@ export function ChallengeSolvePage() {
     const status: SubmissionStatus = passed === allPassed ? 'accepted' : (Math.random() > 0.5 ? 'wrong' : 'compile');
     const score = Math.round((passed / allPassed) * 100);
 
+    const runtime = Math.floor(Math.random() * 60) + 20;
+    const memory = Math.floor(Math.random() * 8) + 14;
+    setExecTimeMs(runtime);
+    setExecMemoryMB(memory);
     setSubmissionStatus(status);
     setSubmissionScore(score);
     setBottomTab('result');
@@ -488,8 +493,8 @@ export function ChallengeSolvePage() {
                      'Time Limit Exceeded ⏱'}
                   </div>
                   <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
-                    <span><Clock size={12} className="inline mr-1" />{Math.floor(Math.random() * 80) + 20} ms</span>
-                    <span><Cpu size={12} className="inline mr-1" />{Math.floor(Math.random() * 10) + 14} MB</span>
+                    <span><Clock size={12} className="inline mr-1" />{execTimeMs} ms</span>
+                    <span><Cpu size={12} className="inline mr-1" />{execMemoryMB} MB</span>
                     <span className={submissionStatus === 'accepted' ? 'text-success-500' : 'text-danger-500'}>
                       Score: {submissionScore}/100
                     </span>

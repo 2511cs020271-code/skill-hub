@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useApp } from '../../context/AppContext';
-import { Avatar, Badge } from '../ui';
+import { Avatar } from '../ui';
 
 export function PublicNavbar() {
   const [mobileOpen, setMobileOpen] = useState(false);

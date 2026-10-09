@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import {
   ChevronLeft, ChevronRight, Check, BookOpen, Code2,
-  Clock, Award, Users, Star, Lock, Play, CheckCircle,
-  ChevronDown, ChevronUp, BarChart2
+  Clock, Award, Users, Star, Play, CheckCircle,
+  ChevronDown, ChevronUp
 } from 'lucide-react';
 import { mockCourses, mockUserProgress } from '../../data/mockData';
 import { Button, Badge, ProgressBar, Card, DifficultyBadge } from '../../components/ui';
@@ -197,7 +197,11 @@ export function CourseDetailPage() {
 
   const toggleModule = (mId: string) => {
     const s = new Set(expandedModules);
-    s.has(mId) ? s.delete(mId) : s.add(mId);
+    if (s.has(mId)) {
+      s.delete(mId);
+    } else {
+      s.add(mId);
+    }
     setExpandedModules(s);
   };
 
