@@ -106,9 +106,22 @@ export function LoginPage() {
           </Button>
         </form>
 
-        {/* Demo credentials hint */}
-        <div className="mt-4 px-4 py-3 bg-brand-600/10 border border-brand-500/20 rounded-xl text-center">
+        {/* Demo credentials hint & quick sign in */}
+        <div className="mt-4 px-4 py-3 bg-brand-600/10 border border-brand-500/20 rounded-xl text-center space-y-2">
           <p className="text-xs text-brand-300">Demo: Use any email & password to login</p>
+          <button
+            type="button"
+            onClick={async () => {
+              setEmail('alex@skillhub.dev');
+              setPassword('password123');
+              await login('alex@skillhub.dev', 'password123');
+              toast.success('Welcome back, Alex! 🎉');
+              navigate('/dashboard');
+            }}
+            className="w-full py-2 px-3 bg-brand-600 hover:bg-brand-500 text-white rounded-lg text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 shadow-glow-brand"
+          >
+            ⚡ One-Click Demo Sign In
+          </button>
         </div>
 
         <div className="mt-6 relative">

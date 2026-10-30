@@ -527,8 +527,20 @@ export default function LandingPage() {
                 </div>
                 <span className="flex-1 text-center text-xs text-gray-400 font-mono">Skill Hub IDE</span>
                 <div className="flex gap-2">
-                  <span className="text-xs bg-success-500/20 text-success-500 px-2 py-0.5 rounded">▶ Run</span>
-                  <span className="text-xs bg-brand-500/20 text-brand-400 px-2 py-0.5 rounded">↑ Submit</span>
+                  <button
+                    onClick={() => toast.success('Running test cases... All 3 passed! (42ms)', { icon: '⚡' })}
+                    className="text-xs bg-success-500/20 hover:bg-success-500/30 text-success-500 px-2.5 py-1 rounded transition-colors cursor-pointer flex items-center gap-1 active:scale-95"
+                    title="Run test cases"
+                  >
+                    ▶ Run
+                  </button>
+                  <button
+                    onClick={() => toast.success('Solution submitted successfully! +50 XP', { icon: '🎉' })}
+                    className="text-xs bg-brand-500/20 hover:bg-brand-500/30 text-brand-400 px-2.5 py-1 rounded transition-colors cursor-pointer flex items-center gap-1 active:scale-95"
+                    title="Submit solution"
+                  >
+                    ↑ Submit
+                  </button>
                 </div>
               </div>
               <div className="grid grid-cols-5 h-[360px]">
@@ -536,7 +548,11 @@ export default function LandingPage() {
                 <div className="col-span-1 bg-surface-900 border-r border-white/[0.06] p-2">
                   <div className="text-xs text-gray-500 mb-2 px-1">EXPLORER</div>
                   {['Main.java', 'Solution.java', 'Test.java'].map((f, i) => (
-                    <div key={i} className={`text-xs px-2 py-1.5 rounded cursor-pointer truncate ${i === 0 ? 'bg-brand-600/20 text-brand-300' : 'text-gray-500 hover:text-gray-300'}`}>
+                    <div
+                      key={i}
+                      onClick={() => toast(`Opened ${f}`, { icon: '📄' })}
+                      className={`text-xs px-2 py-1.5 rounded cursor-pointer truncate transition-colors ${i === 1 ? 'bg-brand-600/20 text-brand-300 font-medium' : 'text-gray-500 hover:text-gray-300 hover:bg-surface-800'}`}
+                    >
                       {f}
                     </div>
                   ))}
