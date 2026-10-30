@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, BookOpen, Map, Code2, Trophy, BarChart3,
   Target, Award, Users, User, Settings, ChevronLeft, ChevronRight,
-  Zap, ClipboardList, Puzzle, Video
+  Zap, ClipboardList, Puzzle, Video, MessageSquare
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 import { useAuth } from '../../context/AuthContext';
@@ -26,6 +26,7 @@ const navItems = [
     { icon: <BarChart3 size={18} />, label: 'Progress', to: '/progress' },
     { icon: <Award size={18} />, label: 'Achievements', to: '/achievements' },
     { icon: <Trophy size={18} />, label: 'Leaderboard', to: '/leaderboard' },
+    { icon: <MessageSquare size={18} />, label: 'Community', to: '/community' },
   ]},
   { group: 'Account', items: [
     { icon: <User size={18} />, label: 'Profile', to: '/profile' },

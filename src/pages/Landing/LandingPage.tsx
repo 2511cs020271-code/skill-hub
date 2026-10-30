@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight, Play, CheckCircle, ChevronRight, Star,
@@ -8,6 +8,31 @@ import {
 } from 'lucide-react';
 import { PublicNavbar } from '../../components/layout/Navbar';
 import { mockLearningPaths } from '../../data/mockData';
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+
+// ==================== FLOATING PARTICLES ====================
+function FloatingParticles() {
+  return (
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {[...Array(20)].map((_, i) => (
+        <div
+          key={i}
+          className="absolute rounded-full animate-float"
+          style={{
+            width: `${(i % 3) + 2}px`,
+            height: `${(i % 3) + 2}px`,
+            backgroundColor: i % 2 === 0 ? 'rgba(99,112,241,0.4)' : 'rgba(249,115,22,0.3)',
+            left: `${(i * 17 + 5) % 100}%`,
+            top: `${(i * 23 + 10) % 100}%`,
+            animationDelay: `${(i * 0.4) % 5}s`,
+            animationDuration: `${3 + (i % 4)}s`,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 // ==================== ANIMATED CODE EDITOR ====================
 const javaCode = `public class Main {
@@ -47,19 +72,20 @@ function CodeEditorHero() {
       }
     }, 80);
     return () => clearInterval(timer);
-  }, []);
+  }, [lines.length]);
 
   const syntaxColor = (line: string) => {
     return line
       .replace(/(public|class|static|void|int|new|for|if|return)/g, '<span class="text-purple-400">$1</span>')
       .replace(/(String|System|int\[\])/g, '<span class="text-cyan-400">$1</span>')
       .replace(/(\/\/.*)/g, '<span class="text-gray-500">$1</span>')
-      .replace(/(".*?")/g, '<span class="text-green-400">$1</span>')
+      .replace(/(\".*?\")/g, '<span class="text-green-400">$1</span>')
       .replace(/(\b\d+\b)/g, '<span class="text-orange-400">$1</span>');
   };
 
   return (
-    <div className="bg-surface-800 rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl">
+    <div className="bg-surface-800 rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl"
+      style={{ boxShadow: '0 25px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,112,241,0.1)' }}>
       {/* Editor header */}
       <div className="flex items-center gap-2 px-4 py-3 bg-surface-700 border-b border-white/[0.06]">
         <div className="w-3 h-3 rounded-full bg-red-500" />
@@ -120,16 +146,41 @@ interface FeatureCardProps {
 }
 
 function FeatureCard({ icon, title, description, color, delay = 0 }: FeatureCardProps) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+    e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+  };
+
   return (
     <div
       className="bg-surface-700 border border-white/[0.06] rounded-2xl p-6 hover:border-brand-500/30 hover:shadow-card-hover transition-all duration-300 group"
-      style={{ animationDelay: `${delay}ms` }}
+      style={{
+        animationDelay: `${delay}ms`,
+        transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 text-2xl`}
         style={{ backgroundColor: `${color}20` }}>
         <span style={{ color }}>{icon}</span>
       </div>
-      <h3 className="font-semibold text-white text-lg mb-2 group-hover:text-brand-300 transition-colors">{title}</h3>
+      <h3
+        className="font-semibold text-white text-lg mb-2 group-hover:text-brand-300 transition-colors"
+        style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+      >
+        {title}
+      </h3>
       <p className="text-gray-400 text-sm leading-relaxed">{description}</p>
     </div>
   );
@@ -139,29 +190,67 @@ function FeatureCard({ icon, title, description, color, delay = 0 }: FeatureCard
 function ProcessStep({ num, title, desc, icon }: { num: string; title: string; desc: string; icon: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center text-center relative">
-      <div className="w-14 h-14 rounded-2xl bg-brand-600/20 border border-brand-500/30 flex items-center justify-center text-brand-400 mb-4">
+      {/* 3D platform base */}
+      <div
+        className="w-14 h-14 rounded-2xl flex items-center justify-center text-brand-400 mb-4 relative"
+        style={{
+          background: 'linear-gradient(145deg, rgba(99,112,241,0.2), rgba(79,78,229,0.1))',
+          border: '1px solid rgba(99,112,241,0.35)',
+          boxShadow: '0 4px 0 rgba(79,78,229,0.3), 0 8px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)',
+        }}
+      >
         {icon}
       </div>
       <div className="text-xs font-bold text-brand-500 uppercase tracking-widest mb-1">{num}</div>
-      <h3 className="font-semibold text-white text-base mb-2">{title}</h3>
+      <h3
+        className="font-semibold text-white text-base mb-2"
+        style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+      >
+        {title}
+      </h3>
       <p className="text-gray-400 text-sm">{desc}</p>
     </div>
   );
 }
 
 export default function LandingPage() {
-  const heroRef = useRef<HTMLDivElement>(null);
-
   return (
     <div className="min-h-screen bg-surface-900">
       <PublicNavbar />
 
       {/* ==================== HERO ==================== */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center pt-16 overflow-hidden">
+      <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
         {/* Background effects */}
         <div className="absolute inset-0 bg-hero-glow" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-600/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent-600/8 rounded-full blur-3xl" />
+
+        {/* Animated grid */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{
+          backgroundImage: `linear-gradient(rgba(99,112,241,1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,112,241,1) 1px, transparent 1px)`,
+          backgroundSize: '60px 60px',
+          maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 100%)'
+        }} />
+
+        {/* Floating particles */}
+        <FloatingParticles />
+
+        {/* Rotating rings decoration */}
+        <div className="absolute top-20 right-10 w-64 h-64 opacity-20 animate-spin-slow" style={{ animationDuration: '20s' }}>
+          <div className="w-full h-full rounded-full border border-brand-500/40" />
+          <div className="absolute inset-4 rounded-full border border-accent-500/30" />
+          <div className="absolute inset-8 rounded-full border border-brand-400/20" />
+        </div>
+
+        {/* Floating geometric polygons */}
+        <div className="absolute top-1/3 right-1/4 w-8 h-8 bg-brand-500/20 rotate-45 animate-float"
+          style={{ animationDelay: '1s', animationDuration: '4s', borderRadius: '4px' }} />
+        <div className="absolute top-2/3 right-1/3 w-6 h-6 bg-accent-500/20 rotate-12 animate-float"
+          style={{ animationDelay: '2s', animationDuration: '5s', borderRadius: '2px' }} />
+        <div className="absolute top-1/2 left-10 w-5 h-5 bg-brand-400/15 rotate-45 animate-float"
+          style={{ animationDelay: '0.5s', animationDuration: '6s', borderRadius: '3px' }} />
+        <div className="absolute bottom-1/3 left-1/4 w-4 h-4 bg-accent-400/20 rotate-12 animate-float"
+          style={{ animationDelay: '3s', animationDuration: '4.5s', borderRadius: '2px' }} />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -171,7 +260,10 @@ export default function LandingPage() {
                 <Sparkles size={14} />
                 Interactive CS Learning Platform
               </div>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-6">
+              <h1
+                className="text-5xl sm:text-6xl lg:text-7xl font-black leading-tight mb-6"
+                style={{ textShadow: '0 2px 0 rgba(0,0,0,0.4), 0 8px 30px rgba(0,0,0,0.3)' }}
+              >
                 <span className="text-white">Learn to</span>{' '}
                 <span className="bg-gradient-to-r from-brand-400 to-accent-400 bg-clip-text text-transparent">Code.</span>
                 <br />
@@ -179,13 +271,13 @@ export default function LandingPage() {
                 <span className="bg-gradient-to-r from-accent-400 to-brand-400 bg-clip-text text-transparent">Skills.</span>
               </h1>
               <p className="text-lg text-gray-300 leading-relaxed mb-8 max-w-xl">
-                Master programming through interactive lessons, browser-based coding, instant feedback, 
+                Master programming through interactive lessons, browser-based coding, instant feedback,
                 automated assessment, and practical challenges — all in one place.
               </p>
               <div className="flex flex-wrap gap-4 mb-12">
                 <Link
                   to="/register"
-                  className="inline-flex items-center gap-2 px-7 py-4 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all duration-200 shadow-glow-brand hover:scale-[1.02] active:scale-[0.98] text-base"
+                  className="inline-flex items-center gap-2 px-7 py-4 bg-brand-600 hover:bg-brand-500 text-white font-semibold rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] text-base btn-3d"
                 >
                   Start Learning Free
                   <ArrowRight size={18} />
@@ -207,26 +299,54 @@ export default function LandingPage() {
                   { val: '6', label: 'Courses' },
                 ].map(s => (
                   <div key={s.label}>
-                    <div className="text-2xl font-bold text-white">{s.val}</div>
+                    <div
+                      className="text-2xl font-bold text-white"
+                      style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 2px 6px rgba(79,78,229,0.4)' }}
+                    >
+                      {s.val}
+                    </div>
                     <div className="text-sm text-gray-400">{s.label}</div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Right — Code editor */}
+            {/* Right — Code editor with 3D tilt */}
             <div className="hidden lg:block animate-slide-up" style={{ animationDelay: '200ms' }}>
-              <CodeEditorHero />
+              <div style={{
+                perspective: '1200px',
+                perspectiveOrigin: 'center center'
+              }}>
+                <div
+                  style={{
+                    transform: 'rotateY(-8deg) rotateX(4deg)',
+                    transition: 'transform 0.5s ease',
+                    transformStyle: 'preserve-3d',
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'rotateY(0deg) rotateX(0deg)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'rotateY(-8deg) rotateX(4deg)'; }}
+                >
+                  <CodeEditorHero />
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Perspective grid floor */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 pointer-events-none" style={{
+          background: 'linear-gradient(to top, rgba(10,11,20,1) 0%, transparent 100%)',
+        }} />
       </section>
 
       {/* ==================== FEATURES ==================== */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 relative">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2
+              className="text-4xl font-bold text-white mb-4"
+              style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+            >
               Everything You Need to Become a Better Programmer
             </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
@@ -247,10 +367,17 @@ export default function LandingPage() {
       </section>
 
       {/* ==================== HOW IT WORKS ==================== */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-surface-800/50">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-surface-800/50 relative overflow-hidden">
+        {/* Subtle background glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-brand-600/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto relative">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">How Skill Hub Works</h2>
+            <h2
+              className="text-4xl font-bold text-white mb-4"
+              style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+            >
+              How Skill Hub Works
+            </h2>
             <p className="text-gray-400 text-lg">A complete learning loop designed for real skill development</p>
           </div>
           <div className="relative">
@@ -273,7 +400,12 @@ export default function LandingPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Choose Your Learning Path</h2>
+            <h2
+              className="text-4xl font-bold text-white mb-4"
+              style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+            >
+              Choose Your Learning Path
+            </h2>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
               Structured paths designed to take you from zero to job-ready. Follow the curriculum or mix and match.
             </p>
@@ -283,6 +415,20 @@ export default function LandingPage() {
               <div
                 key={path.id}
                 className="bg-surface-700 border border-white/[0.06] rounded-2xl p-6 hover:border-white/20 hover:shadow-card-hover transition-all duration-300 group cursor-pointer"
+                style={{ transition: 'all 0.3s ease' }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  const centerX = rect.width / 2;
+                  const centerY = rect.height / 2;
+                  const rotateX = ((y - centerY) / centerY) * -5;
+                  const rotateY = ((x - centerX) / centerX) * 5;
+                  e.currentTarget.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                }}
               >
                 <div className="flex items-start gap-4 mb-4">
                   <div
@@ -336,11 +482,14 @@ export default function LandingPage() {
                 <Code2 size={14} />
                 Browser-Based IDE
               </div>
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2
+                className="text-4xl font-bold text-white mb-6"
+                style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+              >
                 Code Without the Setup.
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                Learn and practice directly in your browser without spending hours installing compilers or 
+                Learn and practice directly in your browser without spending hours installing compilers or
                 configuring development environments. Write code, run it, and see results instantly.
               </p>
               <div className="space-y-4">
@@ -365,8 +514,11 @@ export default function LandingPage() {
               </Link>
             </div>
 
-            {/* Mini IDE */}
-            <div className="bg-surface-800 rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl">
+            {/* Mini IDE with 3D depth */}
+            <div
+              className="bg-surface-800 rounded-2xl overflow-hidden border border-white/[0.08] shadow-2xl"
+              style={{ boxShadow: '0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(99,112,241,0.08)' }}
+            >
               <div className="flex items-center gap-2 px-4 py-3 bg-surface-700 border-b border-white/[0.06]">
                 <div className="flex gap-1.5">
                   <div className="w-3 h-3 rounded-full bg-red-500" />
@@ -413,7 +565,7 @@ export default function LandingPage() {
                           __html: line
                             .replace(/(public|class|int|new|for|if|return)/g, '<span class="text-purple-400">$1</span>')
                             .replace(/(HashMap|String)/g, '<span class="text-cyan-400">$1</span>')
-                            .replace(/(".*?")/g, '<span class="text-green-400">$1</span>')
+                            .replace(/(\".*?\")/g, '<span class="text-green-400">$1</span>')
                             .replace(/(\b\d+\b)/g, '<span class="text-orange-400">$1</span>') || '&nbsp;'
                         }} />
                       </div>
@@ -445,8 +597,11 @@ export default function LandingPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Assessment card */}
-            <div className="bg-surface-700 border border-white/[0.06] rounded-2xl overflow-hidden shadow-2xl">
+            {/* Assessment card with 3D depth */}
+            <div
+              className="bg-surface-700 border border-white/[0.06] rounded-2xl overflow-hidden"
+              style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.5), 0 4px 0 rgba(79,78,229,0.15), 0 0 0 1px rgba(99,112,241,0.08)' }}
+            >
               <div className="px-6 py-5 border-b border-white/[0.06] flex items-center justify-between">
                 <h3 className="font-semibold text-white">Submission Result</h3>
                 <span className="text-xs bg-success-500/20 text-success-500 px-3 py-1 rounded-full font-semibold">Accepted ✓</span>
@@ -478,7 +633,8 @@ export default function LandingPage() {
                     { label: 'Runtime', val: '42 ms', color: 'text-brand-400' },
                     { label: 'Memory', val: '18 MB', color: 'text-accent-400' },
                   ].map(s => (
-                    <div key={s.label} className="bg-surface-600 rounded-xl p-3 text-center">
+                    <div key={s.label} className="bg-surface-600 rounded-xl p-3 text-center"
+                      style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05), 0 2px 4px rgba(0,0,0,0.3)' }}>
                       <div className={`text-xl font-bold ${s.color}`}>{s.val}</div>
                       <div className="text-xs text-gray-400 mt-0.5">{s.label}</div>
                     </div>
@@ -498,11 +654,14 @@ export default function LandingPage() {
                 <BarChart2 size={14} />
                 Automated Assessment
               </div>
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2
+                className="text-4xl font-bold text-white mb-6"
+                style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+              >
                 Know Exactly Where You Stand.
               </h2>
               <p className="text-gray-300 text-lg leading-relaxed mb-8">
-                Every submission is automatically evaluated against comprehensive test cases. 
+                Every submission is automatically evaluated against comprehensive test cases.
                 Get instant results, performance metrics, and AI-powered feedback to guide your improvement.
               </p>
               <div className="space-y-4">
@@ -513,7 +672,10 @@ export default function LandingPage() {
                   { icon: '📊', text: 'Skill gap identification', color: 'bg-accent-500/20 text-accent-400' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold ${item.color}`}>{item.icon}</div>
+                    <div className={`w-8 h-8 rounded-xl flex items-center justify-center text-sm font-bold ${item.color}`}
+                      style={{ boxShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                      {item.icon}
+                    </div>
                     <span className="text-gray-300">{item.text}</span>
                   </div>
                 ))}
@@ -524,22 +686,52 @@ export default function LandingPage() {
       </section>
 
       {/* ==================== GAMIFICATION ==================== */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-surface-800/50">
-        <div className="max-w-7xl mx-auto text-center mb-16">
-          <h2 className="text-4xl font-bold text-white mb-4">Make Progress Addictive.</h2>
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-surface-800/50 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-600/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="max-w-7xl mx-auto text-center mb-16 relative">
+          <h2
+            className="text-4xl font-bold text-white mb-4"
+            style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+          >
+            Make Progress Addictive.
+          </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
             Stay motivated with XP, levels, streaks, badges, and daily challenges. Learning should feel like leveling up.
           </p>
         </div>
-        <div className="max-w-4xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="max-w-4xl mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
           {[
             { icon: <Zap size={24} />, title: 'XP & Levels', desc: 'Earn XP for every action and level up your profile', color: '#f97316' },
             { icon: <Flame size={24} />, title: 'Daily Streaks', desc: 'Keep your streak alive for bonus XP rewards', color: '#ef4444' },
             { icon: <Award size={24} />, title: 'Badges', desc: 'Unlock achievement badges for milestones', color: '#a855f7' },
             { icon: <Trophy size={24} />, title: 'Leaderboard', desc: 'Compete globally or with your friends', color: '#eab308' },
           ].map(g => (
-            <div key={g.title} className="bg-surface-700 border border-white/[0.06] rounded-2xl p-5 text-center hover:border-white/20 transition-all duration-300 hover:scale-[1.02]">
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3" style={{ backgroundColor: `${g.color}20`, color: g.color }}>
+            <div
+              key={g.title}
+              className="bg-surface-700 border border-white/[0.06] rounded-2xl p-5 text-center transition-all duration-300"
+              style={{ transition: 'all 0.3s ease' }}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = ((y - centerY) / centerY) * -6;
+                const rotateY = ((x - centerX) / centerX) * 6;
+                e.currentTarget.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                e.currentTarget.style.borderColor = '';
+              }}
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3"
+                style={{
+                  backgroundColor: `${g.color}20`,
+                  color: g.color,
+                  boxShadow: `0 4px 0 ${g.color}30, 0 6px 12px rgba(0,0,0,0.3)`,
+                }}>
                 {g.icon}
               </div>
               <h3 className="font-semibold text-white mb-2">{g.title}</h3>
@@ -548,8 +740,8 @@ export default function LandingPage() {
           ))}
         </div>
 
-        {/* Badge showcase */}
-        <div className="max-w-2xl mx-auto mt-12 flex flex-wrap justify-center gap-3">
+        {/* Badge showcase with 3D coin effect */}
+        <div className="max-w-2xl mx-auto mt-12 flex flex-wrap justify-center gap-3 relative">
           {[
             { icon: '🏆', label: 'First Code', rarity: 'common' },
             { icon: '🔥', label: '7-Day Streak', rarity: 'rare' },
@@ -561,12 +753,19 @@ export default function LandingPage() {
           ].map(b => (
             <div
               key={b.label}
-              className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-all hover:scale-105 ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-sm font-medium transition-all hover:scale-105 shadow-lg hover:shadow-2xl hover:-translate-y-1 ${
                 b.rarity === 'legendary' ? 'bg-yellow-500/15 border-yellow-500/40 text-yellow-400' :
                 b.rarity === 'epic' ? 'bg-purple-500/15 border-purple-500/30 text-purple-400' :
                 b.rarity === 'rare' ? 'bg-brand-500/15 border-brand-500/30 text-brand-400' :
                 'bg-surface-600 border-white/[0.06] text-gray-300'
               }`}
+              style={{
+                boxShadow: b.rarity === 'legendary'
+                  ? '0 4px 15px rgba(234,179,8,0.4), 0 2px 4px rgba(0,0,0,0.5)'
+                  : b.rarity === 'epic'
+                  ? '0 4px 12px rgba(168,85,247,0.3), 0 2px 4px rgba(0,0,0,0.4)'
+                  : undefined
+              }}
             >
               <span>{b.icon}</span>
               <span>{b.label}</span>
@@ -579,7 +778,12 @@ export default function LandingPage() {
       <section className="py-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-white mb-4">Loved by Students</h2>
+            <h2
+              className="text-4xl font-bold text-white mb-4"
+              style={{ textShadow: '0 1px 0 rgba(255,255,255,0.1), 0 -1px 0 rgba(0,0,0,0.5)' }}
+            >
+              Loved by Students
+            </h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
@@ -587,13 +791,35 @@ export default function LandingPage() {
               { name: 'Priya Reddy', role: 'AI/ML Student', text: 'No more struggling with environment setup. I can focus 100% on learning. The gamification keeps me coming back every day.', rating: 5 },
               { name: 'Arjun Kumar', role: 'Computer Science, NIT', text: 'The automated assessment with AI feedback is incredible. It identifies exactly where I need to improve and suggests relevant content.', rating: 5 },
             ].map(t => (
-              <div key={t.name} className="bg-surface-700 border border-white/[0.06] rounded-2xl p-6 hover:border-brand-500/30 transition-all duration-300">
+              <div
+                key={t.name}
+                className="bg-surface-700 border border-white/[0.06] rounded-2xl p-6 transition-all duration-300"
+                style={{ transition: 'all 0.3s ease' }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const y = e.clientY - rect.top;
+                  const centerX = rect.width / 2;
+                  const centerY = rect.height / 2;
+                  const rotateX = ((y - centerY) / centerY) * -5;
+                  const rotateY = ((x - centerX) / centerX) * 5;
+                  e.currentTarget.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+                  e.currentTarget.style.borderColor = 'rgba(99,112,241,0.3)';
+                  e.currentTarget.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(99,112,241,0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+                  e.currentTarget.style.borderColor = '';
+                  e.currentTarget.style.boxShadow = '';
+                }}
+              >
                 <div className="flex gap-1 mb-4">
                   {Array.from({ length: t.rating }).map((_, i) => <Star key={i} size={14} className="text-yellow-400 fill-yellow-400" />)}
                 </div>
                 <p className="text-gray-300 text-sm leading-relaxed mb-4">"{t.text}"</p>
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-sm font-bold">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-sm font-bold"
+                    style={{ boxShadow: '0 3px 8px rgba(79,78,229,0.4)' }}>
                     {t.name[0]}
                   </div>
                   <div>
@@ -608,11 +834,25 @@ export default function LandingPage() {
       </section>
 
       {/* ==================== FINAL CTA ==================== */}
-      <section className="py-24 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-br from-brand-900/40 to-surface-700 border border-brand-500/20 rounded-3xl px-8 py-16 relative overflow-hidden">
+      <section className="py-24 px-4 relative overflow-hidden">
+        <FloatingParticles />
+        <div className="max-w-4xl mx-auto text-center relative">
+          <div
+            className="bg-gradient-to-br from-brand-900/40 to-surface-700 border border-brand-500/20 rounded-3xl px-8 py-16 relative overflow-hidden"
+            style={{
+              boxShadow: '0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,112,241,0.1), inset 0 1px 0 rgba(255,255,255,0.05)',
+            }}
+          >
             <div className="absolute inset-0 bg-gradient-radial from-brand-600/10 to-transparent pointer-events-none" />
-            <h2 className="text-5xl font-black text-white mb-4 relative">
+            {/* Animated grid inside CTA */}
+            <div className="absolute inset-0 opacity-[0.04]" style={{
+              backgroundImage: `linear-gradient(rgba(99,112,241,1) 1px, transparent 1px), linear-gradient(90deg, rgba(99,112,241,1) 1px, transparent 1px)`,
+              backgroundSize: '40px 40px',
+            }} />
+            <h2
+              className="text-5xl font-black text-white mb-4 relative"
+              style={{ textShadow: '0 2px 0 rgba(0,0,0,0.5), 0 8px 30px rgba(0,0,0,0.4)' }}
+            >
               Your Coding Journey
               <br />
               <span className="bg-gradient-to-r from-brand-400 to-accent-400 bg-clip-text text-transparent">Starts Here.</span>
@@ -623,7 +863,7 @@ export default function LandingPage() {
             <div className="flex flex-wrap gap-4 justify-center relative">
               <Link
                 to="/register"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all duration-200 shadow-glow-brand hover:scale-[1.02] text-lg"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-brand-600 hover:bg-brand-500 text-white font-bold rounded-xl transition-all duration-200 hover:scale-[1.02] text-lg btn-3d"
               >
                 Start Learning Free
                 <ArrowRight size={20} />
@@ -645,15 +885,32 @@ export default function LandingPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
             <div className="col-span-2 md:col-span-1">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center">
+                <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center"
+                  style={{ boxShadow: '0 2px 8px rgba(79,78,229,0.4)' }}>
                   <BookOpen size={14} className="text-white" />
                 </div>
                 <span className="font-bold text-white">Skill<span className="text-brand-400">Hub</span></span>
               </div>
               <p className="text-gray-400 text-sm">Learn. Code. Build. Grow.</p>
             </div>
+            {/* Platform links — real routes */}
+            <div>
+              <h4 className="font-semibold text-white mb-3 text-sm">Platform</h4>
+              {[
+                { label: 'Courses', to: '/courses' },
+                { label: 'Challenges', to: '/challenges' },
+                { label: 'Learning Paths', to: '/learning-paths' },
+                { label: 'Leaderboard', to: '/leaderboard' },
+              ].map(item => (
+                <div key={item.label} className="py-1">
+                  <Link to={item.to} className="text-gray-400 text-sm hover:text-white transition-colors">
+                    {item.label}
+                  </Link>
+                </div>
+              ))}
+            </div>
+            {/* Company & Support — coming soon */}
             {[
-              { title: 'Platform', links: ['Courses', 'Challenges', 'Learning Paths', 'Leaderboard'] },
               { title: 'Company', links: ['About', 'Blog', 'Careers', 'Contact'] },
               { title: 'Support', links: ['Documentation', 'FAQ', 'Community', 'Status'] },
             ].map(col => (
@@ -661,7 +918,12 @@ export default function LandingPage() {
                 <h4 className="font-semibold text-white mb-3 text-sm">{col.title}</h4>
                 {col.links.map(l => (
                   <div key={l} className="py-1">
-                    <a href="#" className="text-gray-400 text-sm hover:text-white transition-colors">{l}</a>
+                    <button
+                      onClick={() => toast(`${l} — coming soon! 🚀`, { icon: '🚀' })}
+                      className="text-gray-400 text-sm hover:text-white transition-colors text-left"
+                    >
+                      {l}
+                    </button>
                   </div>
                 ))}
               </div>
@@ -671,12 +933,19 @@ export default function LandingPage() {
             <p className="text-gray-500 text-sm">© 2026 Skill Hub. All rights reserved.</p>
             <div className="flex items-center gap-4">
               {['Privacy', 'Terms', 'Cookies'].map(l => (
-                <a key={l} href="#" className="text-gray-500 text-sm hover:text-white transition-colors">{l}</a>
+                <button
+                  key={l}
+                  onClick={() => toast(`${l} policy — coming soon!`, { icon: '📄' })}
+                  className="text-gray-500 text-sm hover:text-white transition-colors"
+                >
+                  {l}
+                </button>
               ))}
             </div>
           </div>
         </div>
       </footer>
+      <Toaster position="top-right" toastOptions={{ style: { background: '#1c1f35', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' } }} />
     </div>
   );
 }

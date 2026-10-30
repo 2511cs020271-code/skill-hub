@@ -81,6 +81,7 @@ export default {
         'spin-slow': 'spin 3s linear infinite',
         'bounce-subtle': 'bounceSubtle 1s ease-in-out infinite',
         'xp-gain': 'xpGain 0.6s ease-out forwards',
+        'rotate-3d': 'rotate3d 8s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -115,6 +116,10 @@ export default {
           '0%': { opacity: '0', transform: 'translateY(0) scale(0.8)' },
           '50%': { opacity: '1', transform: 'translateY(-20px) scale(1.1)' },
           '100%': { opacity: '0', transform: 'translateY(-40px) scale(1)' },
+        },
+        rotate3d: {
+          '0%': { transform: 'rotateY(0deg)' },
+          '100%': { transform: 'rotateY(360deg)' },
         },
       },
     },

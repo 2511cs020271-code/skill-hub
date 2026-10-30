@@ -58,6 +58,18 @@
     @apply glass transition-all duration-300 hover:border-brand-500/30 hover:shadow-card-hover;
   }
 
+  /* Deep glass morphism with 3D border effect */
+  .glass-3d {
+    background: rgba(22, 24, 41, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(99, 112, 241, 0.15);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+  }
+
   /* Gradient text */
   .gradient-text {
     @apply bg-gradient-to-r from-brand-400 to-accent-400 bg-clip-text text-transparent;
@@ -69,6 +81,19 @@
     background: linear-gradient(#161829, #161829) padding-box,
                 linear-gradient(135deg, #6370f1, #f97316) border-box;
     border: 1px solid transparent;
+  }
+
+  /* Animated gradient border */
+  .animated-border {
+    position: relative;
+    border-radius: 1rem;
+    padding: 1px;
+    background: conic-gradient(from 0deg, #6370f1, #f97316, #6370f1);
+    animation: rotateBorder 4s linear infinite;
+  }
+  .animated-border > * {
+    border-radius: calc(1rem - 1px);
+    background: #161829;
   }
 
   /* Section wrapper */
@@ -158,11 +183,92 @@
   .xp-fill {
     @apply h-full bg-gradient-to-r from-accent-600 to-accent-400 rounded-full transition-all duration-1000;
   }
+
+  /* 3D card */
+  .card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+  }
+  .card-3d:hover {
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(99, 112, 241, 0.2);
+  }
+
+  /* Perspective container */
+  .perspective-container {
+    perspective: 1000px;
+    perspective-origin: center center;
+  }
+
+  /* 3D button with depth */
+  .btn-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow:
+      0 6px 0 rgba(0, 0, 0, 0.5),
+      0 8px 20px rgba(79, 78, 229, 0.3),
+      0 2px 0 rgba(255, 255, 255, 0.1) inset;
+  }
+  .btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 8px 0 rgba(0, 0, 0, 0.5),
+      0 12px 30px rgba(79, 78, 229, 0.4),
+      0 2px 0 rgba(255, 255, 255, 0.1) inset;
+  }
+  .btn-3d:active {
+    transform: translateY(3px);
+    box-shadow:
+      0 2px 0 rgba(0, 0, 0, 0.5),
+      0 4px 10px rgba(79, 78, 229, 0.2),
+      0 1px 0 rgba(255, 255, 255, 0.05) inset;
+  }
+
+  /* Neon glow pulse */
+  .neon-brand {
+    box-shadow: 0 0 10px rgba(99, 112, 241, 0.4), 0 0 40px rgba(99, 112, 241, 0.15);
+  }
+  .neon-accent {
+    box-shadow: 0 0 10px rgba(249, 115, 22, 0.4), 0 0 40px rgba(249, 115, 22, 0.15);
+  }
+
+  /* 3D pillar for process steps */
+  .pillar-3d {
+    position: relative;
+    transform-style: preserve-3d;
+  }
+  .pillar-3d::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    background: linear-gradient(135deg, rgba(99, 112, 241, 0.3), transparent 60%);
+    border-radius: inherit;
+    z-index: -1;
+    filter: blur(8px);
+  }
 }
 
 @layer utilities {
   .text-shadow-glow {
     text-shadow: 0 0 20px rgba(99, 112, 241, 0.5);
+  }
+
+  .text-3d {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.1),
+      0 2px 0 rgba(0, 0, 0, 0.3),
+      0 3px 0 rgba(0, 0, 0, 0.2),
+      0 4px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .text-extrude {
+    text-shadow:
+      1px 1px 0 rgba(79, 78, 229, 0.5),
+      2px 2px 0 rgba(79, 78, 229, 0.4),
+      3px 3px 0 rgba(79, 78, 229, 0.3),
+      4px 4px 0 rgba(79, 78, 229, 0.2),
+      0 8px 20px rgba(0, 0, 0, 0.5);
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -172,4 +278,25 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Animated grid background */
+  .grid-bg {
+    background-image:
+      linear-gradient(rgba(99, 112, 241, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(99, 112, 241, 0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  /* Floating orb */
+  .orb {
+    border-radius: 50%;
+    filter: blur(60px);
+    pointer-events: none;
+  }
+}
+
+/* Keyframes for animated border rotation */
+@keyframes rotateBorder {
+  from { background: conic-gradient(from 0deg, #6370f1, #f97316, #6370f1); }
+  to   { background: conic-gradient(from 360deg, #6370f1, #f97316, #6370f1); }
 }

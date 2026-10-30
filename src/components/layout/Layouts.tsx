@@ -7,12 +7,14 @@ import { useApp } from '../../context/AppContext';
 import { SearchOverlay } from '../SearchOverlay';
 import { Toaster } from 'react-hot-toast';
 import { LoadingSpinner } from '../ui';
+import { SkillBot } from '../chatbot';
 
 // ==================== PUBLIC LAYOUT ====================
 export function PublicLayout() {
   return (
     <div className="min-h-screen bg-surface-900">
       <Outlet />
+      <SkillBot />
     </div>
   );
 }
@@ -25,6 +27,7 @@ export function AuthLayout() {
     <div className="min-h-screen bg-surface-900 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-hero-glow pointer-events-none" />
       <Outlet />
+      <SkillBot />
       <Toaster position="top-right" toastOptions={{
         style: { background: '#1c1f35', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' },
       }} />
@@ -70,15 +73,18 @@ export function ProtectedLayout() {
       {/* Search overlay */}
       {searchOpen && <SearchOverlay onClose={() => setSearchOpen(false)} />}
 
-      {/* XP Animation */}
+      {/* XP Animation — shifted left so it doesn't overlap the chatbot button */}
       {xpAnimation.show && (
-        <div className="fixed bottom-8 right-8 z-50 pointer-events-none">
+        <div className="fixed bottom-24 right-20 z-40 pointer-events-none">
           <div className="animate-xp-gain bg-accent-600 text-white font-bold text-lg px-5 py-3 rounded-2xl shadow-glow-accent flex items-center gap-2">
             <span>⚡</span>
             <span>+{xpAnimation.amount} XP</span>
           </div>
         </div>
       )}
+
+      {/* SkillBot AI Chatbot */}
+      <SkillBot />
 
       <Toaster position="top-right" toastOptions={{
         style: { background: '#1c1f35', color: '#fff', border: '1px solid rgba(255,255,255,0.1)' },

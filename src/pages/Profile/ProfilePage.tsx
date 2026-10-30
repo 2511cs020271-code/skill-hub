@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Shield, Calendar, Flame, Zap, CheckCircle2,
   BookOpen, Code2, Clock, Trophy
@@ -6,9 +7,11 @@ import {
 import { mockUser, mockAchievements, mockCourses } from '../../data/mockData';
 import { Card, Avatar, ProgressBar, Button } from '../../components/ui';
 import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
 
 export function ProfilePage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const currentUser = user || mockUser;
 
   const xpProgress = Math.round((currentUser.xp / currentUser.xpToNextLevel) * 100);
@@ -45,8 +48,11 @@ export function ProfilePage() {
           </div>
 
           <div className="flex items-center gap-3">
-            <Button variant="secondary" size="sm">
+            <Button variant="secondary" size="sm" onClick={() => navigate('/settings')}>
               Edit Profile
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => toast.success('Share profile link copied!')}>
+              Share
             </Button>
           </div>
         </div>
